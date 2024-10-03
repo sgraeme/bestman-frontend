@@ -2,9 +2,9 @@ import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { apiService } from "../services/ApiService";
 import { UserProfileData, UserInterest } from "../types";
-import { Badge } from "./ui/badge";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
+import GroupedInterests from "./GroupedInterests";
 
 const UserProfile: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -76,17 +76,6 @@ const UserProfile: React.FC = () => {
     }
   };
 
-  const groupInterestsByCategory = () => {
-    const groupedInterests: { [key: string]: UserInterest[] } = {};
-    userInterests.forEach((interest) => {
-      if (!groupedInterests[interest.category_name]) {
-        groupedInterests[interest.category_name] = [];
-      }
-      groupedInterests[interest.category_name].push(interest);
-    });
-    return groupedInterests;
-  };
-
   if (!isAuthenticated) {
     return <div>Please log in to view your profile.</div>;
   }
@@ -98,8 +87,6 @@ const UserProfile: React.FC = () => {
   if (error) {
     return <div>Error: {error}</div>;
   }
-
-  const groupedInterests = groupInterestsByCategory();
 
   return (
     <div>
@@ -130,24 +117,11 @@ const UserProfile: React.FC = () => {
             </div>
           )}
           <h2>Interests</h2>
-          {isLoadingInterests ? (
-            <p>Loading interests...</p>
-          ) : interestsError ? (
-            <p className="text-red-500">{interestsError}</p>
-          ) : (
-            Object.entries(groupedInterests).map(([category, interests]) => (
-              <div key={category}>
-                <h3>{category}</h3>
-                <div>
-                  {interests.map((interest) => (
-                    <Badge key={interest.interest_id}>
-                      {interest.interest_name}
-                    </Badge>
-                  ))}
-                </div>
-              </div>
-            ))
-          )}
+          <GroupedInterests
+            userInterests={userInterests}
+            isLoading={isLoadingInterests}
+            error={interestsError}
+          />
         </div>
       )}
     </div>
