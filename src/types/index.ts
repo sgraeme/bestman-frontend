@@ -12,3 +12,9 @@ export interface UserProfileData {
   email: string;
   bio: string;
 }
+
+export interface UserInterest {
+  interest_id: number;
+  interest_name: string;
+  category_name: string;
+}

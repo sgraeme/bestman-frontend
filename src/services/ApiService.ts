@@ -5,7 +5,12 @@ import axios, {
   AxiosRequestConfig,
 } from "axios";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constants";
-import { UserData, LoginResponse, UserProfileData } from "../types";
+import {
+  UserData,
+  LoginResponse,
+  UserProfileData,
+  UserInterest,
+} from "../types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
@@ -124,6 +129,16 @@ class ApiService {
   ): Promise<UserProfileData> {
     try {
       const response = await this.api.patch<UserProfileData>("/profile/", data);
+      return response.data;
+    } catch (error) {
+      this.handleError(error);
+      throw error;
+    }
+  }
+
+  async getUserInterests(): Promise<UserInterest[]> {
+    try {
+      const response = await this.api.get<UserInterest[]>("/user-interests/");
       return response.data;
     } catch (error) {
       this.handleError(error);
