@@ -3,6 +3,8 @@ import { useAuth } from "../contexts/AuthContext";
 import { apiService } from "../services/ApiService";
 import { UserProfileData, UserInterest } from "../types";
 import { Badge } from "./ui/badge";
+import { Button } from "./ui/button";
+import { Textarea } from "./ui/textarea";
 
 const UserProfile: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -107,16 +109,16 @@ const UserProfile: React.FC = () => {
           <p>Email: {profileData.email}</p>
           {isEditing ? (
             <div>
-              <p>Bio: {profileData.bio}</p>
-              <textarea
+              <p>Bio:</p>
+              <Textarea
                 id="bio"
                 value={editedBio}
                 onChange={(e) => setEditedBio(e.target.value)}
                 rows={4}
               />
               <div>
-                <button onClick={handleSave}>Save</button>
-                <button onClick={handleCancel}>Cancel</button>
+                <Button onClick={handleSave}>Save</Button>
+                <Button onClick={handleCancel}>Cancel</Button>
               </div>
             </div>
           ) : (
@@ -124,7 +126,7 @@ const UserProfile: React.FC = () => {
               <p>
                 <strong>Bio:</strong> {profileData.bio}
               </p>
-              <button onClick={handleEdit}>Edit Bio</button>
+              <Button onClick={handleEdit}>Edit Bio</Button>
             </div>
           )}
           <h2>Interests</h2>
