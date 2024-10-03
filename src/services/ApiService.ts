@@ -10,6 +10,8 @@ import {
   LoginResponse,
   UserProfileData,
   UserInterest,
+  Interest,
+  UpdatedUserInterest,
 } from "../types";
 
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
@@ -139,6 +141,31 @@ class ApiService {
   async getUserInterests(): Promise<UserInterest[]> {
     try {
       const response = await this.api.get<UserInterest[]>("/user-interests/");
+      return response.data;
+    } catch (error) {
+      this.handleError(error);
+      throw error;
+    }
+  }
+
+  async getAllInterests(): Promise<Interest[]> {
+    try {
+      const response = await this.api.get<Interest[]>("/interests/");
+      return response.data;
+    } catch (error) {
+      this.handleError(error);
+      throw error;
+    }
+  }
+
+  async bulkUpdateInterests(
+    interests: UpdatedUserInterest[]
+  ): Promise<UserInterest[]> {
+    try {
+      const interestIds = interests.map((interest) => interest.interest_id);
+      const response = await this.api.post("/user-interests-bulk-update/", {
+        interest_ids: interestIds,
+      });
       return response.data;
     } catch (error) {
       this.handleError(error);

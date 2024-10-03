@@ -5,6 +5,7 @@ import { UserProfileData, UserInterest } from "../types";
 import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import GroupedInterests from "./GroupedInterests";
+import EditInterests from "./EditInterests";
 
 const UserProfile: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -15,6 +16,7 @@ const UserProfile: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [interestsError, setInterestsError] = useState<string | null>(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [isEditingInterests, setIsEditingInterests] = useState(false);
   const [editedBio, setEditedBio] = useState("");
 
   useEffect(() => {
@@ -76,6 +78,15 @@ const UserProfile: React.FC = () => {
     }
   };
 
+  const handleEditInterests = () => {
+    setIsEditingInterests(true);
+  };
+
+  const handleInterestsSave = async (updatedInterests: UserInterest[]) => {
+    setUserInterests(updatedInterests);
+    setIsEditingInterests(false);
+  };
+
   if (!isAuthenticated) {
     return <div>Please log in to view your profile.</div>;
   }
@@ -117,11 +128,22 @@ const UserProfile: React.FC = () => {
             </div>
           )}
           <h2>Interests</h2>
-          <GroupedInterests
-            userInterests={userInterests}
-            isLoading={isLoadingInterests}
-            error={interestsError}
-          />
+          {isEditingInterests ? (
+            <EditInterests
+              userInterests={userInterests}
+              onSave={handleInterestsSave}
+              onCancel={() => setIsEditingInterests(false)}
+            />
+          ) : (
+            <>
+              <GroupedInterests
+                userInterests={userInterests}
+                isLoading={isLoadingInterests}
+                error={interestsError}
+              />
+              <Button onClick={handleEditInterests}>Edit Interests</Button>
+            </>
+          )}
         </div>
       )}
     </div>
