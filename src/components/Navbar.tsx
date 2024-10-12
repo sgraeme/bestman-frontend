@@ -1,14 +1,11 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
 import {
   NavigationMenu,
   NavigationMenuList,
   NavigationMenuItem,
-  NavigationMenuLink,
-  navigationMenuTriggerStyle,
 } from "./ui/navigation-menu";
-import { cn } from "../lib/utils";
 import { Button } from "./ui/button";
 
 const Navbar: React.FC = () => {
@@ -28,24 +25,12 @@ const Navbar: React.FC = () => {
             {isAuthenticated ? (
               <>
                 <NavigationMenuItem>
-                  <NavigationMenuLink asChild>
-                    <Link
-                      to="/profile"
-                      className={cn(
-                        navigationMenuTriggerStyle(),
-                        "bg-primary text-primary-foreground hover:bg-primary/90"
-                      )}
-                    >
-                      Profile
-                    </Link>
-                  </NavigationMenuLink>
+                  <Button onClick={() => navigate("/profile")} variant="ghost">
+                    Profile
+                  </Button>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <Button
-                    onClick={handleLogout}
-                    variant="ghost"
-                    className="text-primary-foreground hover:bg-primary/90"
-                  >
+                  <Button onClick={handleLogout} variant="ghost">
                     Logout
                   </Button>
                 </NavigationMenuItem>
@@ -53,30 +38,14 @@ const Navbar: React.FC = () => {
             ) : (
               <>
                 <NavigationMenuItem>
-                  <NavigationMenuLink asChild>
-                    <Link
-                      to="/login"
-                      className={cn(
-                        navigationMenuTriggerStyle(),
-                        "bg-primary text-primary-foreground hover:bg-primary/90"
-                      )}
-                    >
-                      Login
-                    </Link>
-                  </NavigationMenuLink>
+                  <Button onClick={() => navigate("/login")} variant="ghost">
+                    Login
+                  </Button>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                  <NavigationMenuLink asChild>
-                    <Link
-                      to="/signup"
-                      className={cn(
-                        navigationMenuTriggerStyle(),
-                        "bg-primary text-primary-foreground hover:bg-primary/90"
-                      )}
-                    >
-                      Sign Up
-                    </Link>
-                  </NavigationMenuLink>
+                  <Button onClick={() => navigate("/signup")} variant="ghost">
+                    Sign Up
+                  </Button>
                 </NavigationMenuItem>
               </>
             )}
