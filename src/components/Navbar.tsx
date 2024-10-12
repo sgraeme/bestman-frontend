@@ -9,6 +9,7 @@ import {
   navigationMenuTriggerStyle,
 } from "./ui/navigation-menu";
 import { cn } from "../lib/utils";
+import { Button } from "./ui/button";
 
 const Navbar: React.FC = () => {
   const { isAuthenticated, logout } = useAuth();
@@ -20,46 +21,69 @@ const Navbar: React.FC = () => {
   };
 
   return (
-    <NavigationMenu>
-      <NavigationMenuList>
-        {isAuthenticated ? (
-          <>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link to="/profile" className={navigationMenuTriggerStyle()}>
-                  Profile
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <button
-                onClick={handleLogout}
-                className={cn(navigationMenuTriggerStyle(), "cursor-pointer")}
-              >
-                Logout
-              </button>
-            </NavigationMenuItem>
-          </>
-        ) : (
-          <>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link to="/login" className={navigationMenuTriggerStyle()}>
-                  Login
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-            <NavigationMenuItem>
-              <NavigationMenuLink asChild>
-                <Link to="/signup" className={navigationMenuTriggerStyle()}>
-                  Sign Up
-                </Link>
-              </NavigationMenuLink>
-            </NavigationMenuItem>
-          </>
-        )}
-      </NavigationMenuList>
-    </NavigationMenu>
+    <nav className="bg-primary text-primary-foreground shadow-md">
+      <div className="container mx-auto px-4 py-2">
+        <NavigationMenu>
+          <NavigationMenuList className="flex flex-wrap justify-center md:justify-start space-x-2">
+            {isAuthenticated ? (
+              <>
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      to="/profile"
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        "bg-primary text-primary-foreground hover:bg-primary/90"
+                      )}
+                    >
+                      Profile
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <Button
+                    onClick={handleLogout}
+                    variant="ghost"
+                    className="text-primary-foreground hover:bg-primary/90"
+                  >
+                    Logout
+                  </Button>
+                </NavigationMenuItem>
+              </>
+            ) : (
+              <>
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      to="/login"
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        "bg-primary text-primary-foreground hover:bg-primary/90"
+                      )}
+                    >
+                      Login
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+                <NavigationMenuItem>
+                  <NavigationMenuLink asChild>
+                    <Link
+                      to="/signup"
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        "bg-primary text-primary-foreground hover:bg-primary/90"
+                      )}
+                    >
+                      Sign Up
+                    </Link>
+                  </NavigationMenuLink>
+                </NavigationMenuItem>
+              </>
+            )}
+          </NavigationMenuList>
+        </NavigationMenu>
+      </div>
+    </nav>
   );
 };
 

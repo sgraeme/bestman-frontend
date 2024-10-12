@@ -88,35 +88,54 @@ const UserProfile: React.FC = () => {
   };
 
   if (!isAuthenticated) {
-    return <div>Please log in to view your profile.</div>;
+    return (
+      <div className="bg-card text-card-foreground rounded-lg p-6 shadow-md">
+        Please log in to view your profile.
+      </div>
+    );
   }
 
   if (isLoading) {
-    return <div>Loading profile...</div>;
+    return (
+      <div className="bg-card text-card-foreground rounded-lg p-6 shadow-md">
+        Loading profile...
+      </div>
+    );
   }
 
   if (error) {
-    return <div>Error: {error}</div>;
+    return (
+      <div className="bg-card text-card-foreground rounded-lg p-6 shadow-md">
+        Error: {error}
+      </div>
+    );
   }
 
   return (
-    <div>
-      <h1>User Profile</h1>
+    <div className="bg-card text-card-foreground rounded-lg p-6 shadow-md">
+      <h1 className="text-2xl font-bold mb-4">User Profile</h1>
       {profileData && (
-        <div>
-          <p>Email: {profileData.email}</p>
+        <div className="space-y-4">
+          <p>
+            <strong>Email:</strong> {profileData.email}
+          </p>
           {isEditing ? (
-            <div>
-              <p>Bio:</p>
+            <div className="space-y-2">
+              <label htmlFor="bio" className="block font-medium">
+                Bio:
+              </label>
               <Textarea
                 id="bio"
                 value={editedBio}
                 onChange={(e) => setEditedBio(e.target.value)}
                 rows={4}
+                className="w-full"
               />
-              <div>
+              <div className="space-x-2">
                 <Button onClick={handleSave}>Save</Button>
-                <Button onClick={handleCancel}>Cancel</Button>
+                <Button onClick={handleCancel} variant="outline">
+                  Cancel
+                </Button>
               </div>
             </div>
           ) : (
@@ -124,26 +143,32 @@ const UserProfile: React.FC = () => {
               <p>
                 <strong>Bio:</strong> {profileData.bio}
               </p>
-              <Button onClick={handleEdit}>Edit Bio</Button>
+              <Button onClick={handleEdit} className="mt-2">
+                Edit Bio
+              </Button>
             </div>
           )}
-          <h2>Interests</h2>
-          {isEditingInterests ? (
-            <EditInterests
-              userInterests={userInterests}
-              onSave={handleInterestsSave}
-              onCancel={() => setIsEditingInterests(false)}
-            />
-          ) : (
-            <>
-              <GroupedInterests
+          <div>
+            <h2 className="text-xl font-semibold mb-2">Interests</h2>
+            {isEditingInterests ? (
+              <EditInterests
                 userInterests={userInterests}
-                isLoading={isLoadingInterests}
-                error={interestsError}
+                onSave={handleInterestsSave}
+                onCancel={() => setIsEditingInterests(false)}
               />
-              <Button onClick={handleEditInterests}>Edit Interests</Button>
-            </>
-          )}
+            ) : (
+              <>
+                <GroupedInterests
+                  userInterests={userInterests}
+                  isLoading={isLoadingInterests}
+                  error={interestsError}
+                />
+                <Button onClick={handleEditInterests} className="mt-2">
+                  Edit Interests
+                </Button>
+              </>
+            )}
+          </div>
         </div>
       )}
     </div>

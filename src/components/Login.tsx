@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useAuth } from "../contexts/AuthContext";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
@@ -12,11 +12,13 @@ import {
   FormLabel,
   FormMessage,
 } from "./ui/form";
+import { Input } from "./ui/input";
 import { Button } from "./ui/button";
+import { Card, CardHeader, CardTitle, CardContent } from "./ui/card";
 
 const loginSchema = z.object({
   email: z.string().email("Invalid email address"),
-  password: z.string(),
+  password: z.string().min(1, "Password is required"),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -33,7 +35,7 @@ const Login: React.FC = () => {
     },
   });
 
-  useEffect(() => {
+  React.useEffect(() => {
     if (isAuthenticated) {
       navigate("/profile");
     }
@@ -56,52 +58,64 @@ const Login: React.FC = () => {
   }
 
   return (
-    <div className="max-w-md mx-auto mt-8">
-      <h2 className="text-2xl font-bold mb-4">Login</h2>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-          <FormField
-            control={form.control}
-            name="email"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Email</FormLabel>
-                <FormControl>
-                  <input
-                    type="email"
-                    className="w-full p-2 border rounded"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <FormField
-            control={form.control}
-            name="password"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Password</FormLabel>
-                <FormControl>
-                  <input
-                    type="password"
-                    className="w-full p-2 border rounded"
-                    {...field}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          <Button type="submit">Login</Button>
-        </form>
-      </Form>
-      {form.formState.errors.root && (
-        <p className="text-red-500 mt-2">
-          {form.formState.errors.root.message}
-        </p>
-      )}
+    <div className="flex justify-center items-center min-h-[calc(100vh-4rem)]">
+      <Card className="w-full max-w-md mx-4">
+        <CardHeader className="space-y-1">
+          <CardTitle className="text-2xl font-bold text-center">
+            Login
+          </CardTitle>
+        </CardHeader>
+        <CardContent>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        placeholder="Enter your email"
+                        autoComplete="username"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Enter your password"
+                        autoComplete="current-password"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button type="submit" className="w-full">
+                Login
+              </Button>
+            </form>
+          </Form>
+          {form.formState.errors.root && (
+            <p className="text-destructive mt-4 text-center">
+              {form.formState.errors.root.message}
+            </p>
+          )}
+        </CardContent>
+      </Card>
     </div>
   );
 };

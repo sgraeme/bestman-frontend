@@ -16,15 +16,19 @@ const App: React.FC = () => {
   return (
     <AuthProvider>
       <Router>
-        <Navbar />
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<Signup />} />
-          <Route element={<ProtectedRoute />}>
-            <Route path="/profile" element={<UserProfile />} />
-          </Route>
-          <Route path="*" element={<Navigate to="/login" replace />} />
-        </Routes>
+        <div className="min-h-screen bg-background font-sans antialiased">
+          <Navbar />
+          <main className="container mx-auto px-4 py-4">
+            <Routes>
+              <Route path="/login" element={<Login />} />
+              <Route path="/signup" element={<Signup />} />
+              <Route element={<ProtectedRoute />}>
+                <Route path="/profile" element={<UserProfile />} />
+              </Route>
+              <Route path="*" element={<Navigate to="/login" replace />} />
+            </Routes>
+          </main>
+        </div>
       </Router>
     </AuthProvider>
   );
