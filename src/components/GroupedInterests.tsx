@@ -1,6 +1,7 @@
 import React from "react";
 import { UserInterest } from "../types";
 import { Badge } from "./ui/badge";
+import { cn } from "@/lib/utils";
 
 interface GroupedInterestsProps {
   userInterests: UserInterest[];
@@ -39,9 +40,11 @@ const GroupedInterests: React.FC<GroupedInterestsProps> = ({
       {Object.entries(groupedInterests).map(([category, interests]) => (
         <div key={category}>
           <h3>{category}</h3>
-          <div>
+          <div className={cn("flex flex-wrap gap-1")}>
             {interests.map((interest) => (
-              <Badge key={interest.interest_id}>{interest.interest_name}</Badge>
+              <Badge key={interest.interest_id} variant={"secondary"}>
+                {interest.interest_name}
+              </Badge>
             ))}
           </div>
         </div>

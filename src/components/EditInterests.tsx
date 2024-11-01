@@ -3,6 +3,7 @@ import { UserInterest, Interest, UpdatedUserInterest } from "../types";
 import { ToggleGroup, ToggleGroupItem } from "./ui/toggle-group";
 import { Button } from "./ui/button";
 import { apiService } from "../services/ApiService";
+import { cn } from "@/lib/utils";
 
 interface EditInterestsProps {
   userInterests: UserInterest[];
@@ -76,14 +77,17 @@ const EditInterests: React.FC<EditInterestsProps> = ({
   if (error) return <div>Error: {error}</div>;
 
   return (
-    <div>
+    <>
       {Object.entries(groupedInterests).map(([category, interests]) => (
         <div key={category}>
-          <h4>{category}</h4>
+          <h3>{category}</h3>
           <ToggleGroup
             type="multiple"
             value={selectedInterests}
             onValueChange={setSelectedInterests}
+            variant={"outline"}
+            size="sm"
+            className="flex-wrap justify-start"
           >
             {interests.map((interest) => (
               <ToggleGroupItem key={interest.id} value={interest.id.toString()}>
@@ -93,11 +97,11 @@ const EditInterests: React.FC<EditInterestsProps> = ({
           </ToggleGroup>
         </div>
       ))}
-      <div>
+      <div className={cn("flex gap-2")}>
         <Button onClick={handleSave}>Save</Button>
         <Button onClick={onCancel}>Cancel</Button>
       </div>
-    </div>
+    </>
   );
 };
 

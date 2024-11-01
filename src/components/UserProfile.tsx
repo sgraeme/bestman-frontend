@@ -6,6 +6,7 @@ import { Button } from "./ui/button";
 import { Textarea } from "./ui/textarea";
 import GroupedInterests from "./GroupedInterests";
 import EditInterests from "./EditInterests";
+import { Card, CardTitle, CardContent } from "./ui/card";
 
 const UserProfile: React.FC = () => {
   const { isAuthenticated } = useAuth();
@@ -112,66 +113,68 @@ const UserProfile: React.FC = () => {
   }
 
   return (
-    <div className="bg-card text-card-foreground rounded-lg p-6 shadow-md">
-      <h1 className="text-2xl font-bold mb-4">User Profile</h1>
-      {profileData && (
-        <div className="space-y-4">
-          <p>
-            <strong>Email:</strong> {profileData.email}
-          </p>
-          {isEditing ? (
-            <div className="space-y-2">
-              <label htmlFor="bio" className="block font-medium">
-                Bio:
-              </label>
-              <Textarea
-                id="bio"
-                value={editedBio}
-                onChange={(e) => setEditedBio(e.target.value)}
-                rows={4}
-                className="w-full"
-              />
-              <div className="space-x-2">
-                <Button onClick={handleSave}>Save</Button>
-                <Button onClick={handleCancel} variant="outline">
-                  Cancel
+    <Card className="bg-card text-card-foreground rounded-lg p-6 shadow-md">
+      <CardTitle className="text-2xl font-bold mb-4">User Profile</CardTitle>
+      <CardContent>
+        {profileData && (
+          <div className="space-y-4">
+            <p>
+              <strong>Email:</strong> {profileData.email}
+            </p>
+            {isEditing ? (
+              <div className="space-y-2">
+                <label htmlFor="bio" className="block font-medium">
+                  Bio:
+                </label>
+                <Textarea
+                  id="bio"
+                  value={editedBio}
+                  onChange={(e) => setEditedBio(e.target.value)}
+                  rows={4}
+                  className="w-full"
+                />
+                <div className="space-x-2">
+                  <Button onClick={handleSave}>Save</Button>
+                  <Button onClick={handleCancel} variant="outline">
+                    Cancel
+                  </Button>
+                </div>
+              </div>
+            ) : (
+              <div>
+                <p>
+                  <strong>Bio:</strong> {profileData.bio}
+                </p>
+                <Button onClick={handleEdit} className="mt-2">
+                  Edit Bio
                 </Button>
               </div>
-            </div>
-          ) : (
-            <div>
-              <p>
-                <strong>Bio:</strong> {profileData.bio}
-              </p>
-              <Button onClick={handleEdit} className="mt-2">
-                Edit Bio
-              </Button>
-            </div>
-          )}
-          <div>
-            <h2 className="text-xl font-semibold mb-2">Interests</h2>
-            {isEditingInterests ? (
-              <EditInterests
-                userInterests={userInterests}
-                onSave={handleInterestsSave}
-                onCancel={() => setIsEditingInterests(false)}
-              />
-            ) : (
-              <>
-                <GroupedInterests
-                  userInterests={userInterests}
-                  isLoading={isLoadingInterests}
-                  error={interestsError}
-                />
-                <Button onClick={handleEditInterests} className="mt-2">
-                  Edit Interests
-                </Button>
-              </>
             )}
+            <div>
+              <h2 className="text-xl font-semibold mb-2">Interests</h2>
+              {isEditingInterests ? (
+                <EditInterests
+                  userInterests={userInterests}
+                  onSave={handleInterestsSave}
+                  onCancel={() => setIsEditingInterests(false)}
+                />
+              ) : (
+                <>
+                  <GroupedInterests
+                    userInterests={userInterests}
+                    isLoading={isLoadingInterests}
+                    error={interestsError}
+                  />
+                  <Button onClick={handleEditInterests} className="mt-2">
+                    Edit Interests
+                  </Button>
+                </>
+              )}
+            </div>
           </div>
-        </div>
-      )}
-    </div>
+        )}
+      </CardContent>
+    </Card>
   );
 };
 
